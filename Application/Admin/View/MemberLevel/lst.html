@@ -1,0 +1,30 @@
+<layout name="Index/header_footer" />
+<!-- 列表 -->
+<div class="list-div" id="listDiv">
+	<table cellpadding="3" cellspacing="1">
+    	<tr>
+            <th >级别名称</th>
+            <th >积分下限</th>
+            <th >积分上限</th>
+            <th >折扣率，以百分比，如：9折=90</th>
+			<th width="60">操作</th>
+        </tr>
+		<?php foreach ($data as $k => $v): ?>            
+			<tr class="tron">
+				<td><?php echo $v['level_name']; ?></td>
+				<td><?php echo $v['bottom_num']; ?></td>
+				<td><?php echo $v['top_num']; ?></td>
+				<td><?php echo $v['rate']; ?></td>
+		        <td align="center">
+		        	<a href="<?php echo U('edit?id='.$v['id'].'&p='.I('get.p')); ?>" title="编辑">编辑</a> |
+	                <a href="<?php echo U('delete?id='.$v['id'].'&p='.I('get.p')); ?>" onclick="return confirm('确定要删除吗？');" title="移除">移除</a> 
+		        </td>
+	        </tr>
+        <?php endforeach; ?> 
+		<?php if(preg_match('/\d/', $page)): ?>  
+        <tr><td align="right" nowrap="true" colspan="99" height="30"><?php echo $page; ?></td></tr> 
+        <?php endif; ?> 
+	</table>
+</div>
+<script>
+</script>

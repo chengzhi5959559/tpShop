@@ -1,0 +1,90 @@
+<layout name="Index/header_footer" />
+<!-- 列表 -->
+<div class="list-div" id="listDiv">
+<form action="__SELF__" method="POST">
+	<table cellpadding="3" cellspacing="1">
+    	<tr>
+    		<?php foreach ($attr as $k => $v): ?>
+    		<th>{$v.0.attr_name}</th>
+    		<?php endforeach; ?>
+            <th width="80">库存</th>
+			<th width="30">操作</th>
+        </tr>
+        <?php if($gnData): ?>
+	        <?php foreach ($gnData as $k0 => $v0): 
+	        	if($k0 == 0)
+	        		$opt = '+';
+	        	else 
+	        		$opt = '-';
+	        ?>
+		        <tr>
+		        	<?php foreach ($attr as $k => $v): ?>
+		    		<td>
+		    		<select name="goods_attr_id[]">
+		    			<option value="">请选择</option>
+		    			<?php foreach ($v as $k1 => $v1): 
+		    			/**
+		    			 * '1,2,3,12,23,15,16' 问 6 是否在这个字符串中？
+		    			 * 
+		    			 */
+		    				if(strpos(','.$v0['goods_attr_id'].',', ','.$v1['id'].',') !== FALSE)
+		    					$select = 'selected="selected"';
+		    				else 
+		    					$select = '';
+		    			?>
+		    			<option {$select} value="{$v1.id}">{$v1.attr_value}</option>
+		    			<?php endforeach; ?>
+		    		</select>
+		    		</td>
+		    		<?php endforeach; ?>
+		            <td><input type="text" size="8" name="goods_number[]" value="{$v0.goods_number}" /></td>
+					<td><input type="button" onclick="addnew(this);" value="{$opt}" /></td>
+		        </tr>
+	        <?php endforeach; ?>
+	    <?php else: ?>
+	    	<tr>
+		        	<?php foreach ($attr as $k => $v): ?>
+		    		<td>
+		    		<select name="goods_attr_id[]">
+		    			<option value="">请选择</option>
+		    			<?php foreach ($v as $k1 => $v1): 
+		    			/**
+		    			 * '1,2,3,12,23,15,16' 问 6 是否在这个字符串中？
+		    			 * 
+		    			 */
+		    				if(strpos(','.$v0['goods_attr_id'].',', ','.$v1['id'].',') !== FALSE)
+		    					$select = 'selected="selected"';
+		    				else 
+		    					$select = '';
+		    			?>
+		    			<option {$select} value="{$v1.id}">{$v1.attr_value}</option>
+		    			<?php endforeach; ?>
+		    		</select>
+		    		</td>
+		    		<?php endforeach; ?>
+		            <td><input type="text" size="8" name="goods_number[]" value="{$v0.goods_number}" /></td>
+					<td><input type="button" onclick="addnew(this);" value="+" /></td>
+		      </tr>
+	    <?php endif; ?>
+        <tr id="btn"><td colspan="<?php echo count($attr)+2; ?>" align="center"><input type="submit" value="提交" /></td></tr>
+	</table>
+</form>
+</div>
+<script>
+function addnew(btn)
+{
+	// 先获取点击的按钮所在的tr
+	var tr = $(btn).parent().parent();
+	if($(btn).val() == "+")
+	{
+		// 克隆tr
+		var newtr = tr.clone();
+		// 把+变-
+		newtr.find(":button").val("-");
+		// 把到btn所在的TR前面
+		$("#btn").before(newtr);
+	}
+	else
+		tr.remove();
+}
+</script>
